@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="container">
+                <h3>Fee Structure</h3>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Session</th>
+                        <th scope="col">Faculty</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Amount(₦)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for fee in fees %}
+                      
+                      <tr>
+                        <th scope="row">{{fee.session}}</th>
+                        <td>{{fee.faculty}}</td>
+                        <td>{{fee.department}}</td>
+                        <td>{{fee.amount}}</td>
+                      </tr>
+              
+                      {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" class="container" method="post">
+                      {% csrf_token %}
+                      {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+                        <h4 class="mb-4 card-header">Add Fee</h4>
+                
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="0.00" name="amount">
+                            <label for="floatingInput">amount(₦)</label>
+                        </div>
+                    
+  
+                    
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="session">
+                              <option selected>select</option>
+                              <option value="2020/2021">2020/2021</option>
+                              <option value="2021/2022">2021/2022</option>
+                              <option value="2022/2023">2022/2023</option>
+                            </select>
+                            <label for="floatingSelect">session</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="department">
+                              <option selected>select</option>
+                              <option value="computer science">computer science</option>
+                              <option value="computer engineering">computer engineering</option>
+                              <option value="mathematics">mathematics</option>
+                            </select>
+                            <label for="floatingSelect">department</label>
+                          </div>
+                    
+                          <div class="form-floating mb-3">
+                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="faculty">
+                              <option selected>select</option>
+                              <option value="physical science">physical science</option>
+                              <option value="engineering">engineering</option>
+                              <option value="medicine">medicine</option>
+                            </select>
+                            <label for="floatingSelect">faculty</label>
+                          </div>
+                    
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <div class="card-footer text-body-secondary mt-3">
+                        </div>
+                    </form>
+                </div>
+              </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

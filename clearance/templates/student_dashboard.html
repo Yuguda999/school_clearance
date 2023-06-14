@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h3>Dashboard</h3> <h5>Hello {{student.first_name}}</h5>
+  {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+        {% endfor %}
+                    {% endif %}
+  <div class="box row">
+    <div class="inner-box col-lg-4">
+      Total Fee: ₦{{total_fee}}
+    </div>
+    <div class="inner-box col-lg-4">
+      Amount Paid: ₦{{amount_paid}}
+    </div>
+    <div class="inner-box col-lg-4">
+      Outstanding Fee: ₦{{outstanding}}
+    </div>
+    <div class="inner-box col-lg-4">
+      Status: 
+      {% if student.status %}
+      cleared
+      {% else %}
+      pending
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

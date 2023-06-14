@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+            <div class="container">
+                <h3>Payment History</h3>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Payment ID</th>
+                        <th scope="col">Amount(₦)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for payment in payments %}
+                      
+                      <tr>
+                        <th scope="row">{{payment.date_paid}}</th>
+                        <td>{{payment.Payment_id}}</td>
+                        <td>{{payment.amount}}</td>
+                      </tr>
+              
+                      {% endfor %}
+                    </tbody>
+                  </table>
+        
+    </div>
+  </div>
+{% endblock %}

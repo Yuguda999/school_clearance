@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h3>Dashboard</h3>
+    <div class="box">
+      <div class="inner-box">
+        Total number of students: {{total_students}}
+      </div>
+      <div class="inner-box">
+        Total Cleared Students: {{cleared}}
+      </div>
+    </div>
+  </div>
+{% endblock %}

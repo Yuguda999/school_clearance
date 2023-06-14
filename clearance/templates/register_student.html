@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <form action="" class="container" method="post">
+        {% csrf_token %}
+        <h4 class="mb-4 card-header">Register Student</h4>
+        {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
+          {% endfor %}
+                    {% endif %}
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="floatingInput" placeholder="First Name" name="firstname" />
+          <label for="floatingInput">First Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="floatingInput" placeholder="Last Name" name="lastname" />
+          <label for="floatingInput">Last Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="floatingInput" placeholder="Matric Number" name="matric_number" />
+          <label for="floatingInput">Matric Number</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="floatingInput" placeholder="Phone Number" name="phone" />
+          <label for="floatingInput">Phone Number</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" />
+          <label for="floatingInput">Email address</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="session">
+            <option value="2020/2021">2020/2021</option>
+            <option value="2021/2022">2021/2022</option>
+            <option value="2022/2023">2022/2023</option>
+          </select>
+          <label for="floatingSelect">session</label>
+        </div>
+        <div class="form-floating mb-3">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="department">
+            <option selected>select</option>
+            <option value="computer science">computer science</option>
+            <option value="computer engineering">computer engineering</option>
+            <option value="mathematics">mathematics</option>
+          </select>
+          <label for="floatingSelect">department</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="faculty">
+            <option selected>select</option>
+            <option value="physical science">physical science</option>
+            <option value="engineering">engineering</option>
+            <option value="medicine">medicine</option>
+          </select>
+          <label for="floatingSelect">faculty</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="card-footer text-body-secondary mt-3"></div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
