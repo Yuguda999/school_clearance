@@ -24,48 +24,47 @@
         <tbody>
           {% for student in students %}
           <tr>
-            <td>{{student.first_name}} {{student.last_name}}</td>
-            <td>{{student.matric_number}}</td>
-            <td>{{student.faculty}}</td>
-            <td>{{student.department}}</td>
-            <td>{{student.total_fee_paid}}</td>
+            <td>{{ student.first_name }} {{ student.last_name }}</td>
+            <td>{{ student.matric_number }}</td>
+            <td>{{ student.faculty }}</td>
+            <td>{{ student.department }}</td>
+            <td>{{ student.total_fee_paid }}</td>
             {% if student.status %}
             <td>Cleared</td>
             {% else %}
             <td>
               <!-- Button trigger modal -->
-              <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal{{ student.id }}">
                 pending
               </a>
+
               <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Alert</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Are you sure you want to Approve <strong> {{student.first_name}} {{student.last_name}} </strong>
-          <p>with matric number: <strong>{{student.matric_number}} </strong>
-        </h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <form action="{% url 'status' %}" method="post">
-          {% csrf_token %}
-          <input type="text" hidden name='student_id' value="{{student.id}}">
-          <button type="submit" class="btn btn-primary">Approve</button>`
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+              <div class="modal fade" id="exampleModal{{ student.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Alert</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <h6>Are you sure you want to Approve <strong>{{ student.first_name }} {{ student.last_name }}</strong></h6>
+                      <p>with matric number: <strong>{{ student.matric_number }}</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <form action="{% url 'status' %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" hidden name="student_id" value="{{ student.id }}">
+                        <button type="submit" class="btn btn-primary">Approve</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
             {% endif %}
           </tr>
           {% endfor %}
-
         </tbody>
       </table>
   </div>

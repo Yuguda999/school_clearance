@@ -1,32 +1,124 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+  .container {
+  margin-top: 30px;
+}
+
+h1 {
+  color: blueviolet;
+}
+
+h5 {
+  color: purple;
+}
+
+.alert {
+  margin-top: 20px;
+}
+
+.alert-success {
+  background-color: #d1e7dd;
+  border-color: #b6e3c6;
+  color: #0f5132;
+}
+
+.row-cols-1 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Set width to 100% to make all boxes have the same width */
+}
+
+.card i {
+  font-size: 36px; /* Increase the font size of the icon */
+  margin-bottom: 10px;
+  color: purple;
+}
+
+.card .info p {
+  margin: 0;
+}
+
+.card .info span {
+  font-size: 24px; /* Increase the font size of the text */
+  font-weight: 600;
+  color: #666;
+}
+
+@media (min-width: 768px) {
+  .row-cols-md-2 {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 992px) {
+  .row-cols-lg-4 {
+    column-count: 4;
+  }
+}
+
+</style>
 <div class="container">
-  <h3>Dashboard</h3> <h5>Hello {{student.first_name}}</h5>
+  <h1>Dashboard</h1>
+  <h5>Hello {{student.first_name}}</h5>
   {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-success" role="alert">
-          {{ message }}
+    {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+    <div class="col">
+      <div class="card inner-box">
+        <i class="bi bi-currency-dollar"></i>
+        <div class="info">
+          <p>Total Fee</p>
+          <span>₦{{total_fee}}</span>
         </div>
-        {% endfor %}
-                    {% endif %}
-  <div class="box row">
-    <div class="inner-box col-lg-4">
-      Total Fee: ₦{{total_fee}}
+      </div>
     </div>
-    <div class="inner-box col-lg-4">
-      Amount Paid: ₦{{amount_paid}}
+    <div class="col">
+      <div class="card inner-box">
+        <i class="bi bi-cash-coin"></i>
+        <div class="info">
+          <p>Amount Paid</p>
+          <span>₦{{amount_paid}}</span>
+        </div>
+      </div>
     </div>
-    <div class="inner-box col-lg-4">
-      Outstanding Fee: ₦{{outstanding}}
+    <div class="col">
+      <div class="card inner-box">
+        <i class="bi bi-wallet2"></i>
+        <div class="info">
+          <p>Outstanding Fee</p>
+          <span>₦{{outstanding}}</span>
+        </div>
+      </div>
     </div>
-    <div class="inner-box col-lg-4">
-      Status: 
-      {% if student.status %}
-      cleared
-      {% else %}
-      pending
-      {% endif %}
+    <div class="col">
+      <div class="card inner-box">
+        <i class="bi bi-file-check"></i>
+        <div class="info">
+          <p>Status</p>
+          {% if student.status %}
+            <span>cleared</span>
+          {% else %}
+            <span>pending</span>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

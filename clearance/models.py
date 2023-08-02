@@ -11,7 +11,7 @@ class Fee(models.Model):
 
 class Student(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    phone = models.IntegerField(null=True)
+    phone = models.CharField(null=True, max_length=255)
     matric_number = models.CharField(max_length=100, null=True)
     session = models.CharField(max_length=100, null=True)
     department = models.CharField(max_length=100, null=True)
