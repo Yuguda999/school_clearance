@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from school_clearance.settings import BASE_DIR
 
 
 
@@ -81,6 +82,7 @@ def student_record(request):
     return render(request, 'student_record.html', {'students':students, 'Payment':Payment})
 
 def admin_login(request):
+    print(BASE_DIR)
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
