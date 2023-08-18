@@ -3,82 +3,112 @@
 {% block content %}
 <style>
   .container {
-  margin-top: 30px;
-}
-
-h1 {
-  color: blueviolet;
-}
-
-h5 {
-  color: purple;
-}
-
-.alert {
-  margin-top: 20px;
-}
-
-.alert-success {
-  background-color: #d1e7dd;
-  border-color: #b6e3c6;
-  color: #0f5132;
-}
-
-.row-cols-1 {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.card {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%; /* Set width to 100% to make all boxes have the same width */
-}
-
-.card i {
-  font-size: 36px; /* Increase the font size of the icon */
-  margin-bottom: 10px;
-  color: purple;
-}
-
-.card .info p {
-  margin: 0;
-}
-
-.card .info span {
-  font-size: 24px; /* Increase the font size of the text */
-  font-weight: 600;
-  color: #666;
-}
-
-@media (min-width: 768px) {
-  .row-cols-md-2 {
-    column-count: 2;
+    margin-top: 30px;
   }
-}
 
-@media (min-width: 992px) {
-  .row-cols-lg-4 {
-    column-count: 4;
+  h1 {
+    color: blueviolet;
   }
-}
 
+  h5 {
+    color: purple;
+  }
+
+  .alert {
+    margin-top: 20px;
+  }
+
+  .alert-success {
+    background-color: #d1e7dd;
+    border-color: #b6e3c6;
+    color: #0f5132;
+  }
+
+  .row-cols-1 {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    /* Set width to 100% to make all boxes have the same width */
+  }
+
+  .card i {
+    font-size: 36px;
+    /* Increase the font size of the icon */
+    margin-bottom: 10px;
+    color: purple;
+  }
+
+  .card .info p {
+    margin: 0;
+  }
+
+  .card .info span {
+    font-size: 24px;
+    /* Increase the font size of the text */
+    font-weight: 600;
+    color: #666;
+  }
+
+  @media (min-width: 768px) {
+    .row-cols-md-2 {
+      column-count: 2;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .row-cols-lg-4 {
+      column-count: 4;
+    }
+  }
 </style>
+
 <div class="container">
   <h1>Dashboard</h1>
   <h5>Hello {{student.first_name}}</h5>
+  <small>{{student.session}} | {{student.faculty}} | {{student.department}} | {{student.matric_number}}</small>
   {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-success" role="alert">
-        {{ message }}
-      </div>
-    {% endfor %}
+  {% for message in messages %}
+  <div class="alert alert-success" role="alert">
+    {{ message }}
+  </div>
+  {% endfor %}
   {% endif %}
+  <br>
+
+  <div class="card inner-box">
+    <h5>Fee Structure</h5>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Category</th>
+          <th scope="col">Amount(₦)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fee in fees %}
+
+        <tr>
+          <td>{{fee.category}}</td>
+          <td>{{fee.amount}}</td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+<br>
+<hr>
+<br>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
     <div class="col">
       <div class="card inner-box">
@@ -113,9 +143,9 @@ h5 {
         <div class="info">
           <p>Status</p>
           {% if student.status %}
-            <span>cleared</span>
+          <span>cleared</span>
           {% else %}
-            <span>pending</span>
+          <span>pending</span>
           {% endif %}
         </div>
       </div>

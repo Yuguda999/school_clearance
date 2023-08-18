@@ -26,9 +26,10 @@ def status(request):
     if request.method == 'POST':
         student_id = request.POST['student_id']
         student = Student.objects.get(id=student_id)
-        department_fee =  Fee.objects.filter(department=student.department).first().amount
+        querry_fee =  Fee.objects.filter(department=student.department, session=student.session).all()
+        department_fee = sum([item.amount for item in querry_fee])  
         total_fee_paid = student.total_fee_paid
-        if total_fee_paid == department_fee:
+        if total_fee_paid >= department_fee and total_fee_paid !=0 and department_fee !=0:
             student.status=True
             student.save()
             messages.error(request, 'Student approved successfully')
@@ -49,12 +50,18 @@ def add_fee(request):
         session = request.POST['session']
         faculty = request.POST['faculty']
         department = request.POST['department']
-        fee = Fee(amount=amount, session=session, department=department, faculty=faculty)
-        fee.save()
-        messages.error(request, 'Fee added successfully')
-        return redirect('add_fee')
+        category = request.POST['category']
+        querry_fee = Fee.objects.get(category=category,session=session, department=department, faculty=faculty)
+        if querry_fee:
+            messages.error(request, 'Fee category exists already')
+        else:
+            fee = Fee(amount=amount, category=category,session=session, department=department, faculty=faculty)
+            fee.save()
+            messages.success(request, 'Fee added successfully')
+            return redirect('add_fee')
     fees = Fee.objects.all()
     return render(request, 'add_fee.html', {'fees':fees})
+
     
 @login_required(login_url='admin_login')
 @staff_member_required
@@ -82,7 +89,6 @@ def student_record(request):
     return render(request, 'student_record.html', {'students':students, 'Payment':Payment})
 
 def admin_login(request):
-    print(BASE_DIR)
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -109,13 +115,14 @@ def logout_view(request):
 @login_required(login_url='student_login')
 def student_dashboard(request, student_id):
     user = Student.objects.get(id=student_id)
-    department_fee =  Fee.objects.filter(department=user.department).first().amount
+    querry_fee =  Fee.objects.filter(department=user.department, session=user.session).all()
+    department_fee = sum([item.amount for item in querry_fee])  
     payments = Payment.objects.filter(student=user)
     total_payments = sum([payment.amount for payment in payments])
     outstanding_fee = department_fee - total_payments
     user.total_fee_paid = total_payments
     user.save()
-    return render(request, 'student_dashboard.html', {'student':user, 'total_fee':department_fee, 'amount_paid':total_payments, 'outstanding':outstanding_fee})
+    return render(request, 'student_dashboard.html', {'student':user, 'total_fee':department_fee, 'amount_paid':total_payments, 'outstanding':outstanding_fee, 'fees':querry_fee})
 
 @login_required(login_url='student_login')
 def payment_history(request):
@@ -127,10 +134,23 @@ def payment_history(request):
 def payment(request, student_id):
     user = Student.objects.get(id=student_id)
     if request.method == 'POST':
-        amount = request.POST['amount']
+        amount = int(request.POST['amount'])
+        category = request.POST['category']
         student = Student.objects.get(id=student_id)
-        payment = Payment.objects.create(student=student, amount=amount)
-        messages.error(request, 'Payment Successful')
+        querry_fee =  Fee.objects.filter(department=student.department, session=student.session).all()
+        department_fee = sum([item.amount for item in querry_fee])  
+        total_fee_paid = student.total_fee_paid
+        if total_fee_paid == department_fee:
+            messages.error(request, 'you have already made full payment')
+            return redirect('payment', student_id=student_id)
+        elif amount <= 0 or amount+total_fee_paid > department_fee:
+            messages.error(request, 'invalid amount')
+            return redirect('payment', student_id=student_id)
+        elif department_fee <= 0:
+            messages.error(request, 'Fee not available, try again later')
+            return redirect('payment', student_id=student_id)
+        payment = Payment.objects.create(student=student, amount=amount, category=category)
+        messages.success(request, 'Payment Successful')
         return redirect('student_dashboard', student_id=student_id)
     return render(request, 'payment.html', {'student':user})
 
@@ -146,7 +166,7 @@ def student_login(request):
         password = request.POST.get('password')
         print(username , password)
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user is not None and not user.is_staff:
             login(request, user)
             print('welcome')
             return redirect('student_dashboard', student_id=user.id) 

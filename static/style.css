@@ -14,7 +14,7 @@ html, body {
   background-size: cover;
   background-position: center;
   transition: background-image 1s ease;
-  background: linear-gradient(to right, #ffffff, #b69dea);
+  background-image: url("image4.png");
   
   
 }

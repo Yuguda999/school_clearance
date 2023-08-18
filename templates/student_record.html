@@ -10,9 +10,11 @@
         </div>
       {% endfor %}
     {% endif %}
-    <table class="table table-striped">
+    <div class="container">
+      <table class="table table-striped">
         <thead>
           <tr>
+            <th scope="col">Session</th>
             <th scope="col">Full Name</th>
             <th scope="col">Matric Number</th>
             <th scope="col">Faculty</th>
@@ -24,17 +26,18 @@
         <tbody>
           {% for student in students %}
           <tr>
+            <td>{{ student.session }}</td>
             <td>{{ student.first_name }} {{ student.last_name }}</td>
             <td>{{ student.matric_number }}</td>
             <td>{{ student.faculty }}</td>
             <td>{{ student.department }}</td>
             <td>{{ student.total_fee_paid }}</td>
             {% if student.status %}
-            <td>Cleared</td>
+            <td><span class="btn btn-sm btn-outline btn-success">Cleared</span></td>
             {% else %}
             <td>
               <!-- Button trigger modal -->
-              <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal{{ student.id }}">
+              <a type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{ student.id }}">
                 pending
               </a>
 
@@ -67,5 +70,6 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
   </div>
 {% endblock %}

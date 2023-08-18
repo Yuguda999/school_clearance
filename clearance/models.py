@@ -5,9 +5,11 @@ import uuid
 class Fee(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
-    department = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    department = models.CharField(max_length=100, default='Tuition')
     faculty = models.CharField(max_length=100)
     session = models.CharField(max_length=100)
+    
 
 class Student(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -31,9 +33,12 @@ class Student(AbstractUser):
 class Payment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
+    category = models.CharField(max_length=100)
     date_paid = models.DateTimeField(auto_now_add=True)
     Payment_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    class Meta:
+        ordering = ['-date_paid']
 
 
     def __str__(self):

@@ -9,6 +9,7 @@
             <th scope="col">Date</th>
             <th scope="col">FullName</th>
             <th scope="col">Amount</th>
+            <th scope="col">Category</th>
             <th scope="col">Payment ID</th>
           </tr>
         </thead>
@@ -18,6 +19,7 @@
             <td>{{payment.date_paid}}</td>
             <td>{{payment.student.first_name}} {{ payment.student.last_name }}</td>
             <td>{{payment.amount}}</td>
+            <td>{{payment.category}}</td>
             <td>{{payment.Payment_id}}</td>
           </tr>
           {% endfor %}
